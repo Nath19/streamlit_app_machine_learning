@@ -10,6 +10,12 @@ from sklearn.neural_network import MLPClassifier
 from sklearn.preprocessing import StandardScaler 
 from sklearn.neighbors import KNeighborsClassifier
 import plotly.express as px
+from sklearn.metrics import confusion_matrix
+
+from sklearn.model_selection import train_test_split
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.metrics import confusion_matrix
+
 
 
 
@@ -37,13 +43,14 @@ def preprocessing(df):
 @st.cache(suppress_st_warning=True)
 def decisionTree(X_train, X_test, y_train, y_test):
 	# Train the model
-	tree = DecisionTreeClassifier(max_leaf_nodes=3, random_state=0)
-	tree.fit(X_train, y_train)
-	y_pred = tree.predict(X_test)
-	score = metrics.accuracy_score(y_test, y_pred) * 100
-	report = classification_report(y_test, y_pred)
-
-	return score, report, tree
+            tree = DecisionTreeClassifier(max_leaf_nodes=3, random_state=0)
+            tree.fit(X_train, y_train)
+            y_pred = tree.predict(X_test)
+            score = metrics.accuracy_score(y_test, y_pred) * 100
+            report = classification_report(y_test, y_pred)
+            cm_dtc=confusion_matrix(y_test,y_pred)
+            st.write('Confusion matrix: ', cm_dtc)
+            return score, report, tree
 
 # Training Neural Network for Classification.
 @st.cache(suppress_st_warning=True)
